@@ -1,0 +1,8 @@
+rich
+litellm
+python-dotenv
+requests
+fpdf2
+flask
+gunicorn
+beautifulsoup4
