@@ -1,3 +1,5 @@
+import re
+import json
 import requests
 from bs4 import BeautifulSoup
 from litellm import completion
@@ -62,8 +64,15 @@ class SentinelWebAuditor:
                 messages=[{"role": "user", "content": prompt}]
             )
             content = response.choices[0].message.content
-            # Remove markdown code blocks if present
-            content = content.replace("```json", "").replace("```", "").strip()
+            # Strip markdown code fences
+            content = re.sub(r'```(?:json)?', '', content).strip()
+            # Extract the JSON object block
+            start = content.find('{')
+            end = content.rfind('}')
+            if start != -1 and end != -1:
+                content = content[start:end + 1]
+            # Validate parse (strict=False allows literal control chars in strings)
+            json.JSONDecoder(strict=False).decode(content)
             return content
         except Exception as e:
             return f"{{\"error\": \"AI Analysis failed: {str(e)}\"}}"

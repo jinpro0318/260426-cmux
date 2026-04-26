@@ -513,7 +513,7 @@ def audit():
         model_name = os.getenv("TARGET_MODEL", "anthropic/claude-sonnet-4-6")
         auditor = SentinelWebAuditor(model_name=model_name)
         site_data = auditor.fetch_site_data(url)
-        analysis = json.loads(auditor.analyze_with_ai(site_data))
+        analysis = json.JSONDecoder(strict=False).decode(auditor.analyze_with_ai(site_data))
         reporter = SentinelReporter(model_name, f"WEB_AUDIT: {url}")
         reporter.save_json(analysis)
         return jsonify({"success": True})
