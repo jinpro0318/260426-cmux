@@ -1,16 +1,17 @@
 {
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/api/index"
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/index.py"
     }
   ],
   "env": {
     "TARGET_MODEL": "gemini/gemini-2.0-flash"
-  },
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 60
-    }
   }
 }
