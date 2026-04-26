@@ -310,6 +310,16 @@ HTML_TEMPLATE = """
           <h3 class="sub-gradient font-bold text-sm uppercase tracking-widest mb-4 font-mono">종합 보안 권고사항</h3>
           <p id="reco-text" class="text-slate-300 text-sm leading-relaxed"></p>
         </div>
+
+        <!-- PDF Download -->
+        <div class="flex justify-end">
+          <button onclick="downloadPDF()"
+            class="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white transition-all hover:brightness-110 hover:-translate-y-0.5"
+            style="background:linear-gradient(135deg,#1D4ED8,#0891B2);box-shadow:0 0 20px rgba(6,182,212,0.25)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            PDF 리포트 다운로드
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -356,6 +366,10 @@ HTML_TEMPLATE = """
         ? 'px-3 py-1.5 text-xs font-mono rounded-lg bg-blue-500/15 text-blue-300 border border-blue-500/20'
         : 'px-3 py-1.5 text-xs font-mono rounded-lg text-slate-500 hover:text-slate-300 transition-colors';
     }
+
+    /* ── Current analysis cache ── */
+    let currentAnalysis = null;
+    let currentUrl = '';
 
     /* ── Chart ── */
     const chartData = { critical: 0, high: 0, medium: 0, low: 0 };
@@ -470,6 +484,10 @@ HTML_TEMPLATE = """
       document.getElementById('empty-state').classList.add('hidden');
       document.getElementById('audit-results').classList.remove('hidden');
 
+      // Cache for PDF
+      currentAnalysis = analysis;
+      currentUrl = document.getElementById('url-input').value.trim();
+
       // Scroll to results
       document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -498,6 +516,32 @@ HTML_TEMPLATE = """
       }
     }
     document.getElementById('url-input').addEventListener('keydown', e => { if (e.key === 'Enter') startAudit(); });
+
+    /* ── PDF Download ── */
+    async function downloadPDF() {
+      if (!currentAnalysis) { alert('먼저 보안 진단을 실행하세요.'); return; }
+      const btn = event.currentTarget;
+      btn.textContent = '생성 중...';
+      btn.disabled = true;
+      try {
+        const res = await fetch('/api/download-pdf', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ analysis: currentAnalysis, url: currentUrl })
+        });
+        if (!res.ok) throw new Error('PDF 생성 실패');
+        const blob = await res.blob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'sentinel_report.pdf';
+        a.click();
+      } catch(e) {
+        alert('PDF 오류: ' + e.message);
+      } finally {
+        btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF 리포트 다운로드';
+        btn.disabled = false;
+      }
+    }
 
     /* ── Sandbox ── */
     async function runSandbox() {
@@ -552,6 +596,35 @@ def audit():
         return jsonify({"success": True, "analysis": analysis})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
+
+@app.route('/api/download-pdf', methods=['POST'])
+def download_pdf():
+    try:
+        data = request.json
+        analysis = data.get('analysis', {})
+        url = data.get('url', 'unknown')
+        model_name = os.getenv("TARGET_MODEL", "gemini/gemini-2.0-flash")
+        reporter = SentinelReporter(model_name, f"WEB_AUDIT: {url}")
+        pdf_path = reporter.save_web_audit_pdf(analysis)
+        if not pdf_path:
+            return jsonify({"error": "PDF 생성 실패"}), 500
+        full_path = os.path.join(reporter.save_dir, pdf_path)
+        with open(full_path, 'rb') as f:
+            pdf_bytes = f.read()
+        try:
+            os.remove(full_path)
+        except Exception:
+            pass
+        from flask import send_file
+        import io
+        return send_file(
+            io.BytesIO(pdf_bytes),
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name='sentinel_report.pdf'
+        )
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/sandbox', methods=['POST'])
 def sandbox():
