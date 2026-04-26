@@ -13,5 +13,10 @@
   ],
   "env": {
     "TARGET_MODEL": "gemini/gemini-2.0-flash"
+  },
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 60
+    }
   }
 }
