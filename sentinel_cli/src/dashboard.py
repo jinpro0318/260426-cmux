@@ -510,10 +510,20 @@ def audit():
     try:
         data = request.json
         url = data.get('url')
-        model_name = os.getenv("TARGET_MODEL", "anthropic/claude-sonnet-4-6")
+        if not url:
+            return jsonify({"success": False, "error": "URL이 필요합니다."})
+        api_key = os.getenv("GEMINI_API_KEY") or os.getenv("ANTHROPIC_API_KEY")
+        if not api_key:
+            return jsonify({"success": False, "error": "API 키가 설정되지 않았습니다. Vercel 환경변수에 GEMINI_API_KEY를 추가해주세요."})
+        model_name = os.getenv("TARGET_MODEL", "gemini/gemini-2.0-flash")
         auditor = SentinelWebAuditor(model_name=model_name)
         site_data = auditor.fetch_site_data(url)
-        analysis = json.JSONDecoder(strict=False).decode(auditor.analyze_with_ai(site_data))
+        if "error" in site_data:
+            return jsonify({"success": False, "error": f"사이트 접근 실패: {site_data['error']}"})
+        raw = auditor.analyze_with_ai(site_data)
+        analysis = json.JSONDecoder(strict=False).decode(raw)
+        if "error" in analysis:
+            return jsonify({"success": False, "error": analysis["error"]})
         reporter = SentinelReporter(model_name, f"WEB_AUDIT: {url}")
         reporter.save_json(analysis)
         return jsonify({"success": True})
