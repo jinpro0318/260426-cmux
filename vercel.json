@@ -10,5 +10,8 @@
       "src": "/(.*)",
       "dest": "api/index.py"
     }
-  ]
+  ],
+  "env": {
+    "TARGET_MODEL": "gemini/gemini-2.0-flash"
+  }
 }
