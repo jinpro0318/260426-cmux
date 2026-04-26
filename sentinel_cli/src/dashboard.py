@@ -2,7 +2,7 @@ import os
 import json
 import glob
 import sys
-from flask import Flask, render_template_string, request, jsonify
+from flask import Flask, render_template_string, request, jsonify, Response
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if path not in sys.path:
@@ -22,7 +22,7 @@ HTML_TEMPLATE = """
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sentinel-CLI Enterprise</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.1/tailwind.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -574,6 +574,10 @@ def view(filename):
             return jsonify(json.load(f))
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/favicon.ico')
+def favicon():
+    return Response(status=204)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
