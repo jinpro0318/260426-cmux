@@ -30,7 +30,6 @@ HTML_TEMPLATE = """
     * { font-family: 'Inter', sans-serif; }
     body { background: #000; }
 
-    /* Grid background */
     .bg-grid {
       background-image:
         linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
@@ -38,7 +37,6 @@ HTML_TEMPLATE = """
       background-size: 44px 44px;
     }
 
-    /* Gradient title with 3D glow depth */
     .title-gradient {
       background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 30%, #06B6D4 60%, #3B82F6 100%);
       -webkit-background-clip: text;
@@ -47,7 +45,6 @@ HTML_TEMPLATE = """
       filter: drop-shadow(0 0 28px rgba(6,182,212,0.55)) drop-shadow(0 0 8px rgba(59,130,246,0.4));
     }
 
-    /* Sub gradient for smaller headings */
     .sub-gradient {
       background: linear-gradient(90deg, #60A5FA, #06B6D4);
       -webkit-background-clip: text;
@@ -55,7 +52,6 @@ HTML_TEMPLATE = """
       background-clip: text;
     }
 
-    /* Hero scan input */
     .scan-input {
       background: rgba(15,20,40,0.85);
       border: 1.5px solid rgba(59,130,246,0.35);
@@ -87,7 +83,6 @@ HTML_TEMPLATE = """
     .scan-btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
     .scan-btn:active { transform: scale(0.98); }
 
-    /* Cards */
     .card {
       background: rgba(10,14,26,0.9);
       border: 1px solid rgba(59,130,246,0.12);
@@ -97,19 +92,13 @@ HTML_TEMPLATE = """
     }
     .card:hover { border-color: rgba(6,182,212,0.3); box-shadow: 0 0 32px rgba(6,182,212,0.07); }
 
-    /* Severity badge */
     .badge-critical { background: rgba(239,68,68,0.12); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.3); }
     .badge-high     { background: rgba(249,115,22,0.12); color: #FDBA74; border: 1px solid rgba(249,115,22,0.3); }
     .badge-medium   { background: rgba(234,179,8,0.12);  color: #FDE047; border: 1px solid rgba(234,179,8,0.3); }
     .badge-low      { background: rgba(34,197,94,0.12);  color: #86EFAC; border: 1px solid rgba(34,197,94,0.3); }
 
-    /* Loading overlay */
-    #loading-overlay {
-      background: rgba(0,0,0,0.93);
-      backdrop-filter: blur(6px);
-    }
+    #loading-overlay { background: rgba(0,0,0,0.93); backdrop-filter: blur(6px); }
 
-    /* Spinner ring */
     .ring {
       width: 72px; height: 72px;
       border: 3px solid transparent;
@@ -120,7 +109,6 @@ HTML_TEMPLATE = """
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Pulse dot */
     .pulse-dot {
       width: 10px; height: 10px;
       background: #06B6D4;
@@ -132,12 +120,10 @@ HTML_TEMPLATE = """
       50% { opacity:0.8; transform: scale(1.1); box-shadow: 0 0 0 8px rgba(6,182,212,0); }
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.3); border-radius: 3px; }
 
-    /* Code block */
     .code-block {
       background: rgba(0,0,0,0.6);
       border: 1px solid rgba(59,130,246,0.1);
@@ -147,14 +133,12 @@ HTML_TEMPLATE = """
       color: #6EE7B7;
     }
 
-    /* Nav */
     .navbar {
       background: rgba(0,0,0,0.75);
       border-bottom: 1px solid rgba(59,130,246,0.1);
       backdrop-filter: blur(20px);
     }
 
-    /* Hero glow orb */
     .orb {
       position: absolute;
       border-radius: 50%;
@@ -162,7 +146,6 @@ HTML_TEMPLATE = """
       pointer-events: none;
     }
 
-    /* Fade in up */
     @keyframes fadeUp {
       from { opacity:0; transform: translateY(24px); }
       to   { opacity:1; transform: translateY(0); }
@@ -172,6 +155,16 @@ HTML_TEMPLATE = """
     .delay-2 { animation-delay: 0.22s; opacity:0; }
     .delay-3 { animation-delay: 0.36s; opacity:0; }
     .delay-4 { animation-delay: 0.5s; opacity:0; }
+
+    @keyframes slideIn {
+      from { opacity:0; transform: translateY(16px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .slide-in { animation: slideIn 0.4s ease forwards; }
+
+    .risk-high   { color: #FCA5A5; border-color: rgba(239,68,68,0.4);  background: rgba(239,68,68,0.08); }
+    .risk-medium { color: #FDE047; border-color: rgba(234,179,8,0.4);  background: rgba(234,179,8,0.08); }
+    .risk-low    { color: #86EFAC; border-color: rgba(34,197,94,0.4);  background: rgba(34,197,94,0.08); }
   </style>
 </head>
 <body class="bg-black text-slate-200 min-h-screen">
@@ -206,18 +199,15 @@ HTML_TEMPLATE = """
 
   <!-- HERO SECTION -->
   <section class="relative min-h-screen flex flex-col items-center justify-center bg-grid pt-20 pb-16 overflow-hidden">
-    <!-- Glow orbs -->
     <div class="orb w-[600px] h-[600px] bg-blue-600/8 top-0 left-1/2 -translate-x-1/2 -translate-y-1/3"></div>
     <div class="orb w-[400px] h-[400px] bg-cyan-500/6 top-1/2 right-0 translate-x-1/3 -translate-y-1/2"></div>
 
     <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
-      <!-- Badge -->
       <div class="fade-up delay-1 inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-8 border border-blue-500/20 bg-blue-500/6 text-blue-300 text-xs font-mono">
         <div class="pulse-dot"></div>
         LLM Red Team Platform &nbsp;·&nbsp; Enterprise Edition
       </div>
 
-      <!-- Main title -->
       <h1 class="fade-up delay-2 text-6xl font-black leading-none tracking-tight mb-6 md:text-7xl lg:text-8xl">
         <span class="title-gradient">SENTINEL</span>
       </h1>
@@ -228,7 +218,6 @@ HTML_TEMPLATE = """
         웹사이트 URL을 입력하면 AI가 취약점을 자동 탐지하고<br>보완 코드까지 즉시 생성합니다.
       </p>
 
-      <!-- Centered scan input -->
       <div class="fade-up delay-4 max-w-2xl mx-auto">
         <div class="flex shadow-2xl shadow-blue-900/30">
           <input type="text" id="url-input" class="scan-input" placeholder="https://example.com">
@@ -237,7 +226,6 @@ HTML_TEMPLATE = """
         <p class="text-slate-600 text-xs mt-3 font-mono">예: https://yoursite.com &nbsp;·&nbsp; 평균 소요 시간 20–40초</p>
       </div>
 
-      <!-- Mini stats row -->
       <div class="fade-up delay-4 mt-14 flex flex-wrap items-center justify-center gap-8 border-t border-white/5 pt-10">
         <div class="text-center">
           <p class="text-2xl font-black sub-gradient">7+</p>
@@ -265,10 +253,8 @@ HTML_TEMPLATE = """
   <!-- DASHBOARD SECTION -->
   <div class="max-w-7xl mx-auto px-6 py-16 space-y-8">
 
-    <!-- Top cards: Stats chart + Sandbox -->
+    <!-- Top cards: Stats + Sandbox -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-      <!-- Chart card -->
       <div class="card lg:col-span-2 p-7">
         <h3 class="sub-gradient font-bold text-sm uppercase tracking-widest mb-6 font-mono" data-i18n="stats_title">보안 취약점 통계</h3>
         <div class="h-56">
@@ -276,7 +262,6 @@ HTML_TEMPLATE = """
         </div>
       </div>
 
-      <!-- Sandbox card -->
       <div class="card p-7 flex flex-col">
         <h3 class="sub-gradient font-bold text-sm uppercase tracking-widest mb-1 font-mono" data-i18n="sandbox_title">페이로드 샌드박스</h3>
         <p class="text-slate-500 text-xs mb-4" data-i18n="sandbox_desc">커스텀 공격 프롬프트를 AI 모델에 직접 테스트해 보세요.</p>
@@ -292,68 +277,38 @@ HTML_TEMPLATE = """
       </div>
     </div>
 
-    <!-- Results + Archive -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Audit Results (dynamic) -->
+    <div id="results-section" class="grid grid-cols-1 gap-6">
 
-      <!-- Results -->
-      <div class="lg:col-span-2 space-y-4">
-        {% if latest_report and latest_report.vulnerabilities %}
-        <div class="card overflow-hidden">
-          <div class="px-7 py-5 border-b border-blue-500/10 flex items-center justify-between">
-            <h3 class="sub-gradient font-bold text-sm uppercase tracking-widest font-mono">AI 진단 결과 & 패치 가이드</h3>
-            <span class="text-xs text-slate-600 font-mono">{{ latest_report.vulnerabilities|length }} issues found</span>
-          </div>
-          {% for vuln in latest_report.vulnerabilities %}
-          <div class="px-7 py-6 border-b border-white/5 last:border-0 hover:bg-blue-500/3 transition-colors">
-            <div class="flex items-start justify-between gap-4 mb-3">
-              <h4 class="text-white font-semibold leading-snug">{{ vuln.issue }}</h4>
-              <span class="shrink-0 text-[10px] font-black px-2.5 py-1 rounded-lg badge-{{ vuln.severity|lower }}">
-                {{ vuln.severity }}
-              </span>
-            </div>
-            <p class="text-slate-400 text-sm mb-4 leading-relaxed">{{ vuln.description }}</p>
-            <div class="code-block p-4">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider" data-i18n="improvement">보완 자동화 코드</span>
-                <button onclick="navigator.clipboard.writeText(`{{ vuln.improvement }}`)"
-                  class="text-[10px] border border-white/10 rounded px-2 py-0.5 text-slate-500 hover:text-slate-200 transition-colors">
-                  COPY
-                </button>
-              </div>
-              <pre class="text-[11px] whitespace-pre-wrap leading-relaxed">{{ vuln.improvement }}</pre>
-            </div>
-          </div>
-          {% endfor %}
+      <!-- Empty state (shown by default) -->
+      <div id="empty-state" class="card flex flex-col items-center justify-center py-20 text-center">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        {% else %}
-        <div class="card flex flex-col items-center justify-center py-20 text-center">
-          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15)">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <p class="text-slate-400 font-medium">아직 스캔 결과가 없습니다</p>
-          <p class="text-slate-600 text-sm mt-1">위 검색창에 URL을 입력하여 보안 진단을 시작하세요</p>
-        </div>
-        {% endif %}
+        <p class="text-slate-400 font-medium">아직 스캔 결과가 없습니다</p>
+        <p class="text-slate-600 text-sm mt-1">위 검색창에 URL을 입력하여 보안 진단을 시작하세요</p>
       </div>
 
-      <!-- Archive -->
-      <div class="card p-7 h-fit">
-        <h3 class="sub-gradient font-bold text-sm uppercase tracking-widest mb-5 font-mono" data-i18n="archive">보안 리포트 목록</h3>
-        {% if all_reports %}
-        <div class="space-y-2">
-          {% for report in all_reports %}
-          <div class="flex items-center justify-between p-3 rounded-xl bg-black/40 border border-blue-500/8 hover:border-blue-500/20 transition-colors">
-            <p class="text-xs text-slate-400 truncate flex-1 font-mono mr-2">{{ report.name }}</p>
-            <a href="/view/{{ report.name }}" target="_blank"
-              class="shrink-0 text-[10px] px-2.5 py-1 rounded-lg font-bold text-cyan-400 border border-cyan-500/20 bg-cyan-500/8 hover:bg-cyan-500/15 transition-colors">
-              VIEW
-            </a>
+      <!-- Results (rendered dynamically) -->
+      <div id="audit-results" class="hidden space-y-4">
+
+        <!-- Summary row -->
+        <div id="result-summary" class="card p-6 flex flex-wrap items-center gap-6"></div>
+
+        <!-- Vulnerability list -->
+        <div id="vuln-list" class="card overflow-hidden">
+          <div class="px-7 py-5 border-b border-blue-500/10 flex items-center justify-between">
+            <h3 class="sub-gradient font-bold text-sm uppercase tracking-widest font-mono">AI 진단 결과 &amp; 패치 가이드</h3>
+            <span id="issue-count" class="text-xs text-slate-600 font-mono"></span>
           </div>
-          {% endfor %}
+          <div id="vuln-items"></div>
         </div>
-        {% else %}
-        <p class="text-slate-600 text-sm text-center py-8">리포트 없음</p>
-        {% endif %}
+
+        <!-- General recommendations -->
+        <div id="reco-card" class="card p-7 hidden">
+          <h3 class="sub-gradient font-bold text-sm uppercase tracking-widest mb-4 font-mono">종합 보안 권고사항</h3>
+          <p id="reco-text" class="text-slate-300 text-sm leading-relaxed"></p>
+        </div>
       </div>
     </div>
   </div>
@@ -366,7 +321,7 @@ HTML_TEMPLATE = """
   </footer>
 
   <script>
-    /* i18n */
+    /* ── i18n ── */
     const i18n = {
       ko: {
         hero_title: "차세대 AI 보안 통합 진단",
@@ -401,59 +356,17 @@ HTML_TEMPLATE = """
         : 'px-3 py-1.5 text-xs font-mono rounded-lg text-slate-500 hover:text-slate-300 transition-colors';
     }
 
-    /* Audit */
-    async function startAudit() {
-      const url = document.getElementById('url-input').value.trim();
-      if (!url) { alert('URL을 입력해주세요.'); return; }
-      document.getElementById('loading-overlay').classList.remove('hidden');
-      try {
-        const res = await fetch('/api/audit', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({url})
-        });
-        const data = await res.json();
-        if (data.success) location.reload();
-        else { alert('진단 실패: ' + data.error); document.getElementById('loading-overlay').classList.add('hidden'); }
-      } catch(e) {
-        alert('오류: ' + e.message);
-        document.getElementById('loading-overlay').classList.add('hidden');
-      }
-    }
-    document.getElementById('url-input').addEventListener('keydown', e => { if (e.key === 'Enter') startAudit(); });
-
-    /* Sandbox */
-    async function runSandbox() {
-      const prompt = document.getElementById('sandbox-prompt').value.trim();
-      if (!prompt) { alert('프롬프트를 입력해주세요.'); return; }
-      const el = document.getElementById('sandbox-result');
-      el.innerText = 'Analyzing...';
-      try {
-        const res = await fetch('/api/sandbox', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({prompt})
-        });
-        const data = await res.json();
-        el.innerText = JSON.stringify(data.result || data.error, null, 2);
-      } catch(e) { el.innerText = 'Error: ' + e.message; }
-    }
-
-    /* Chart */
+    /* ── Chart ── */
+    const chartData = { critical: 0, high: 0, medium: 0, low: 0 };
     const ctx = document.getElementById('statsChart').getContext('2d');
     Chart.defaults.color = '#64748b';
-    new Chart(ctx, {
+    const statsChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['Critical', 'High', 'Medium', 'Low'],
         datasets: [{
-          data: [{{ stats.critical }}, {{ stats.high }}, {{ stats.medium }}, {{ stats.low }}],
-          backgroundColor: [
-            'rgba(239,68,68,0.7)',
-            'rgba(249,115,22,0.7)',
-            'rgba(234,179,8,0.7)',
-            'rgba(34,197,94,0.7)'
-          ],
+          data: [0, 0, 0, 0],
+          backgroundColor: ['rgba(239,68,68,0.7)','rgba(249,115,22,0.7)','rgba(234,179,8,0.7)','rgba(34,197,94,0.7)'],
           borderColor: ['#EF4444','#F97316','#EAB308','#22C55E'],
           borderWidth: 1,
           borderRadius: 8
@@ -469,6 +382,138 @@ HTML_TEMPLATE = """
         }
       }
     });
+
+    function updateChart(vulns) {
+      const counts = { critical: 0, high: 0, medium: 0, low: 0 };
+      vulns.forEach(v => {
+        const s = (v.severity || '').toLowerCase();
+        if (counts[s] !== undefined) counts[s]++;
+      });
+      statsChart.data.datasets[0].data = [counts.critical, counts.high, counts.medium, counts.low];
+      statsChart.update();
+    }
+
+    /* ── Render results ── */
+    function escapeHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderResults(analysis) {
+      const vulns = analysis.vulnerabilities || [];
+      const risk = (analysis.overall_risk || '').toLowerCase();
+      const reco = analysis.general_recommendations || '';
+
+      // Summary
+      const riskClass = risk.includes('high') || risk.includes('critical') ? 'risk-high' : risk.includes('medium') ? 'risk-medium' : 'risk-low';
+      document.getElementById('result-summary').innerHTML = `
+        <div>
+          <p class="text-xs text-slate-500 font-mono mb-1">OVERALL RISK</p>
+          <span class="text-lg font-black px-4 py-1.5 rounded-xl border font-mono ${riskClass}">${escapeHtml(analysis.overall_risk || 'Unknown')}</span>
+        </div>
+        <div class="w-px h-10 bg-white/5 hidden md:block"></div>
+        <div>
+          <p class="text-xs text-slate-500 font-mono mb-1">ISSUES FOUND</p>
+          <p class="text-2xl font-black text-white">${vulns.length}</p>
+        </div>
+        <div class="w-px h-10 bg-white/5 hidden md:block"></div>
+        <div>
+          <p class="text-xs text-slate-500 font-mono mb-1">TARGET</p>
+          <p class="text-sm text-cyan-400 font-mono truncate max-w-xs">${escapeHtml(document.getElementById('url-input').value)}</p>
+        </div>
+      `;
+
+      // Issue count
+      document.getElementById('issue-count').textContent = vulns.length + ' issues found';
+
+      // Vulnerabilities
+      const container = document.getElementById('vuln-items');
+      container.innerHTML = '';
+      if (vulns.length === 0) {
+        container.innerHTML = '<div class="px-7 py-10 text-center text-slate-500">취약점이 발견되지 않았습니다.</div>';
+      } else {
+        vulns.forEach((v, i) => {
+          const sev = (v.severity || 'low').toLowerCase();
+          const div = document.createElement('div');
+          div.className = 'px-7 py-6 border-b border-white/5 last:border-0 hover:bg-blue-500/3 transition-colors slide-in';
+          div.style.animationDelay = (i * 0.07) + 's';
+          div.style.opacity = '0';
+          div.innerHTML = `
+            <div class="flex items-start justify-between gap-4 mb-3">
+              <h4 class="text-white font-semibold leading-snug">${escapeHtml(v.issue || '')}</h4>
+              <span class="shrink-0 text-[10px] font-black px-2.5 py-1 rounded-lg badge-${sev}">${escapeHtml(v.severity || '')}</span>
+            </div>
+            <p class="text-slate-400 text-sm mb-4 leading-relaxed">${escapeHtml(v.description || '')}</p>
+            <div class="code-block p-4">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">보완 자동화 코드</span>
+                <button onclick="navigator.clipboard.writeText(${JSON.stringify(v.improvement || '')})"
+                  class="text-[10px] border border-white/10 rounded px-2 py-0.5 text-slate-500 hover:text-slate-200 transition-colors">COPY</button>
+              </div>
+              <pre class="text-[11px] whitespace-pre-wrap leading-relaxed">${escapeHtml(v.improvement || '')}</pre>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      }
+
+      // General recommendations
+      if (reco) {
+        document.getElementById('reco-text').textContent = reco;
+        document.getElementById('reco-card').classList.remove('hidden');
+      }
+
+      // Update chart
+      updateChart(vulns);
+
+      // Show results, hide empty state
+      document.getElementById('empty-state').classList.add('hidden');
+      document.getElementById('audit-results').classList.remove('hidden');
+
+      // Scroll to results
+      document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ── Audit ── */
+    async function startAudit() {
+      const url = document.getElementById('url-input').value.trim();
+      if (!url) { alert('URL을 입력해주세요.'); return; }
+      document.getElementById('loading-overlay').classList.remove('hidden');
+      try {
+        const res = await fetch('/api/audit', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({url})
+        });
+        const data = await res.json();
+        document.getElementById('loading-overlay').classList.add('hidden');
+        if (data.success && data.analysis) {
+          renderResults(data.analysis);
+        } else {
+          alert('진단 실패: ' + (data.error || '알 수 없는 오류'));
+        }
+      } catch(e) {
+        document.getElementById('loading-overlay').classList.add('hidden');
+        alert('오류: ' + e.message);
+      }
+    }
+    document.getElementById('url-input').addEventListener('keydown', e => { if (e.key === 'Enter') startAudit(); });
+
+    /* ── Sandbox ── */
+    async function runSandbox() {
+      const prompt = document.getElementById('sandbox-prompt').value.trim();
+      if (!prompt) { alert('프롬프트를 입력해주세요.'); return; }
+      const el = document.getElementById('sandbox-result');
+      el.innerText = 'Analyzing...';
+      try {
+        const res = await fetch('/api/sandbox', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({prompt})
+        });
+        const data = await res.json();
+        el.innerText = JSON.stringify(data.result || data.error, null, 2);
+      } catch(e) { el.innerText = 'Error: ' + e.message; }
+    }
   </script>
 </body>
 </html>
@@ -476,34 +521,7 @@ HTML_TEMPLATE = """
 
 @app.route('/')
 def index():
-    json_files = glob.glob(os.path.join(REPORT_DIR, "sentinel_report_*.json"))
-    all_reports = []
-    stats = {"critical": 0, "high": 0, "medium": 0, "low": 0}
-
-    for f in json_files:
-        all_reports.append({"name": os.path.basename(f), "date": os.path.getmtime(f)})
-        try:
-            with open(f, 'r') as jf:
-                data = json.load(jf)
-                for v in data.get("vulnerabilities", []):
-                    s = v.get("severity", "").lower()
-                    if s in stats:
-                        stats[s] += 1
-        except:
-            pass
-
-    all_reports.sort(key=lambda x: x["date"], reverse=True)
-
-    latest_report = None
-    if json_files:
-        latest_file = max(json_files, key=os.path.getmtime)
-        try:
-            with open(latest_file, 'r', encoding='utf-8') as f:
-                latest_report = json.load(f)
-        except:
-            pass
-
-    return render_template_string(HTML_TEMPLATE, latest_report=latest_report, all_reports=all_reports, stats=stats)
+    return render_template_string(HTML_TEMPLATE)
 
 @app.route('/api/audit', methods=['POST'])
 def audit():
@@ -524,9 +542,13 @@ def audit():
         analysis = json.JSONDecoder(strict=False).decode(raw)
         if "error" in analysis:
             return jsonify({"success": False, "error": analysis["error"]})
-        reporter = SentinelReporter(model_name, f"WEB_AUDIT: {url}")
-        reporter.save_json(analysis)
-        return jsonify({"success": True})
+        # Save report (best-effort; not required for display)
+        try:
+            reporter = SentinelReporter(model_name, f"WEB_AUDIT: {url}")
+            reporter.save_json(analysis)
+        except Exception:
+            pass
+        return jsonify({"success": True, "analysis": analysis})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
 
@@ -535,7 +557,7 @@ def sandbox():
     try:
         data = request.json
         prompt = data.get('prompt')
-        model_name = os.getenv("TARGET_MODEL", "anthropic/claude-sonnet-4-6")
+        model_name = os.getenv("TARGET_MODEL", "gemini/gemini-2.0-flash")
         fuzzer = SentinelFuzzer(model_name=model_name)
         res = fuzzer.run_scan(prompt)
         return jsonify({"result": res})
