@@ -21,7 +21,7 @@ HTML_TEMPLATE = """
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sentinel-CLI Enterprise</title>
+  <title>Sentinel AI</title>
   <script>(function(){var w=console.warn;console.warn=function(){if(arguments[0]&&String(arguments[0]).indexOf('cdn.tailwindcss.com')>-1)return;w.apply(console,arguments);};})();</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -187,7 +187,7 @@ HTML_TEMPLATE = """
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <span class="font-black text-sm tracking-widest" style="font-family:'JetBrains Mono',monospace">
-          <span class="sub-gradient">SENTINEL</span><span class="text-slate-300">-CLI</span>
+          <span class="sub-gradient">SENTINEL</span><span class="text-slate-300"> AI</span>
         </span>
         <span class="text-[10px] border border-blue-500/25 bg-blue-500/8 text-blue-400 rounded-full px-2 py-0.5 font-mono">v2.0</span>
       </div>
@@ -327,7 +327,7 @@ HTML_TEMPLATE = """
   <!-- Footer -->
   <footer class="border-t border-blue-500/8 py-8 mt-8">
     <p class="text-center text-slate-600 text-xs font-mono">
-      SENTINEL-CLI ENTERPRISE &nbsp;·&nbsp; For authorized security research only &nbsp;·&nbsp; © 2026
+      SENTINEL AI &nbsp;·&nbsp; For authorized security research only &nbsp;·&nbsp; © 2026
     </p>
   </footer>
 
